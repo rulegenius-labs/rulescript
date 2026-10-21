@@ -5,7 +5,7 @@
   "fileExtension": ".rules",
   "examples": {
     "supplier": "rule \"Prepare supplier data\":\n  rename `Unit Price` to price\n  convert price to number\n  convert quantity to integer\n  set total to price * quantity\n\nrule \"Valid price\":\n  check price is required\n  check price is a number\n  check price is between 0 and 10000\n  message \"Enter a numeric price from 0 to 10000\"\n\nrule \"Supported country\":\n  check country is in [\"US\", \"CA\", \"MX\"]\n  message \"Country must be US, CA or MX\"",
-    "quoted-fields": "rule \"Read exact column headers\":\n  set total to `Unit Price` * quantity\n  set `Customer Note` to \"Reviewed\"",
+    "quoted-fields": "rule \"Read exact column headers\":\n  convert `Unit Price` to number\n  convert quantity to integer\n  set total to `Unit Price` * quantity\n  set `Customer Note` to \"Reviewed\"",
     "checks": "rule \"Valid price\":\n  check price is required\n  check price is a number\n  check price is between 0 and 10000\n  message \"Enter a numeric price from 0 to 10000\"",
     "conditional": "rule \"Discount on larger orders\":\n  when price is greater than 100\n  check discount is a number\n  check discount is at least 0\n  message \"Discount must be a nonnegative number\"",
     "privacy": "rule \"Remove identifying fields\":\n  anonymize email, phone, `Full Name`",

@@ -1,3 +1,5 @@
 rule "Read exact column headers":
+  convert `Unit Price` to number
+  convert quantity to integer
   set total to `Unit Price` * quantity
   set `Customer Note` to "Reviewed"
