@@ -116,6 +116,8 @@ validate "product_id" is not_empty
 validate "price" is in_range 0..100000
 ```
 
+Save the example as [`supplier_product_feed_v1.rules`](examples/supplier_product_feed_v1.rules).
+
 This file:
 - Defines the data contract (`supplier_product_feed_v1`)
 - Declares structure (`@field`) and behavioral rules (`validate`)
@@ -203,11 +205,11 @@ By decoupling validation logic from code, **RuleSpec** enables cleaner pipelines
 
 ## Getting Started
 
-RuleSpec files use the `.rulespec` extension and can be parsed or validated using the reference CLI (coming soon).
+RuleSpec source files use the **`.rules`** extension, the shared source filename convention across the RuleGenius project. This avoids confusion with Rust source files and replaces the earlier `.rulespec` convention. The reference CLI is planned; the command below illustrates its intended usage.
 
 ```bash
 # Validate a CSV file against a rulespec contract
-rulespec validate --input products.csv --rules supplier_product_feed_v1.rulespec
+rulespec validate --input products.csv --rules supplier_product_feed_v1.rules
 ```
 
 Current prototype parsers are being developed in Python and C++, with bindings for Apache Arrow and Pandas.
