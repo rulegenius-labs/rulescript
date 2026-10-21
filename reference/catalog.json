@@ -349,7 +349,190 @@
     "path": "/v1/executions",
     "parts": [
       "rules",
-      "data"
-    ]
+      "data",
+      "mode"
+    ],
+    "modes": [
+      "execute",
+      "preview"
+    ],
+    "requiredParts": {
+      "execute": [
+        "rules",
+        "data"
+      ],
+      "preview": [
+        "rules",
+        "mode"
+      ]
+    }
+  },
+  "preview": {
+    "cli": "rulegenius supplier.rules --preview",
+    "cliReport": "rulegenius supplier.rules --preview --report plan.json",
+    "api": {
+      "method": "POST",
+      "path": "/v1/executions",
+      "mode": "preview",
+      "parts": [
+        "rules",
+        "mode"
+      ]
+    },
+    "text": {
+      "en": "Preview only — no data inspected or rules executed\n\n1. Prepare supplier data\n   Rename `Unit Price` to price\n   Convert price to number and quantity to integer\n   Set total to price * quantity\n\n2. Valid price\n   Require price, check its number type and inclusive range 0–10000\n   On check failure: \"Enter a numeric price from 0 to 10000\"\n\n3. Supported country\n   Check that country is US, CA or MX\n   On check failure: \"Country must be US, CA or MX\"\n\nActual field availability, values and row outcomes remain unknown.",
+      "es": "Solo previsualización — sin inspeccionar datos ni ejecutar reglas\n\n1. Prepare supplier data\n   Renombrar `Unit Price` como price\n   Convertir price a number y quantity a integer\n   Asignar a total el resultado de price * quantity\n\n2. Valid price\n   Exigir price, comprobar que sea numérico y esté entre 0 y 10000\n   Mensaje de fallo: \"Enter a numeric price from 0 to 10000\"\n\n3. Supported country\n   Comprobar que country sea US, CA o MX\n   Mensaje de fallo: \"Country must be US, CA or MX\"\n\nLos campos reales, sus valores y los resultados por fila siguen sin comprobarse."
+    },
+    "response": {
+      "spec_version": "0.1-draft",
+      "mode": "preview",
+      "status": "ready",
+      "executed": false,
+      "data_inspected": false,
+      "rules_sha256": "9a656bf2a4780801c731dc6fe48e121c1f33e57656538b1d167d0683e0df687b",
+      "output": null,
+      "plan": {
+        "rules": [
+          {
+            "order": 1,
+            "name": "Prepare supplier data",
+            "when": null,
+            "message": null,
+            "steps": [
+              {
+                "order": 1,
+                "line": 2,
+                "operation": "rename",
+                "source": "rename `Unit Price` to price",
+                "reads": [
+                  "Unit Price"
+                ],
+                "writes": [
+                  "price"
+                ],
+                "removes": [
+                  "Unit Price"
+                ],
+                "explanation": "Rename the exact field `Unit Price` to price."
+              },
+              {
+                "order": 2,
+                "line": 3,
+                "operation": "convert",
+                "source": "convert price to number",
+                "reads": [
+                  "price"
+                ],
+                "writes": [
+                  "price"
+                ],
+                "removes": [],
+                "explanation": "Convert price explicitly to a number; an invalid value would fail the record."
+              },
+              {
+                "order": 3,
+                "line": 4,
+                "operation": "convert",
+                "source": "convert quantity to integer",
+                "reads": [
+                  "quantity"
+                ],
+                "writes": [
+                  "quantity"
+                ],
+                "removes": [],
+                "explanation": "Convert quantity explicitly to an integer; a fraction would fail the record."
+              },
+              {
+                "order": 4,
+                "line": 5,
+                "operation": "set",
+                "source": "set total to price * quantity",
+                "reads": [
+                  "price",
+                  "quantity"
+                ],
+                "writes": [
+                  "total"
+                ],
+                "removes": [],
+                "explanation": "Assign total from price multiplied by quantity."
+              }
+            ]
+          },
+          {
+            "order": 2,
+            "name": "Valid price",
+            "when": null,
+            "message": "Enter a numeric price from 0 to 10000",
+            "steps": [
+              {
+                "order": 1,
+                "line": 8,
+                "operation": "check",
+                "source": "check price is required",
+                "reads": [
+                  "price"
+                ],
+                "writes": [],
+                "removes": [],
+                "explanation": "Require a present, non-null, nonempty price."
+              },
+              {
+                "order": 2,
+                "line": 9,
+                "operation": "check",
+                "source": "check price is a number",
+                "reads": [
+                  "price"
+                ],
+                "writes": [],
+                "removes": [],
+                "explanation": "Check that price is a number without converting it."
+              },
+              {
+                "order": 3,
+                "line": 10,
+                "operation": "check",
+                "source": "check price is between 0 and 10000",
+                "reads": [
+                  "price"
+                ],
+                "writes": [],
+                "removes": [],
+                "explanation": "Check that price is between 0 and 10000, including both limits."
+              }
+            ]
+          },
+          {
+            "order": 3,
+            "name": "Supported country",
+            "when": null,
+            "message": "Country must be US, CA or MX",
+            "steps": [
+              {
+                "order": 1,
+                "line": 14,
+                "operation": "check",
+                "source": "check country is in [\"US\", \"CA\", \"MX\"]",
+                "reads": [
+                  "country"
+                ],
+                "writes": [],
+                "removes": [],
+                "explanation": "Check that country is exactly US, CA or MX."
+              }
+            ]
+          }
+        ],
+        "warnings": [
+          {
+            "code": "DATA_NOT_INSPECTED",
+            "rule": null,
+            "message": "No data was supplied or inspected. Field availability, types, guard outcomes, check results and row counts remain unknown."
+          }
+        ]
+      }
+    }
   }
 }

@@ -175,3 +175,6 @@ if __name__=='__main__':
     with (ROOT/'examples/supplier-input.csv').open() as f:assert len(list(csv.DictReader(f)))==2
     with (ROOT/'examples/supplier-output.csv').open() as f:assert len(list(csv.DictReader(f)))==2
     print(f'PASS: {len(sources)} source examples accepted; {len(invalid)} invalid syntax cases rejected; CSV fixtures readable. No runtime execution performed.')
+
+    from check_preview_contract import run
+    run()

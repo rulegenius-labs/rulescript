@@ -70,3 +70,7 @@ Reports use rule names, record indexes (starting at 1), statuses and stable diag
 ## Interfaces and implementation status
 
 The [CLI/API contract](execution.md) invokes this same execution model for all statements. No separate compile format, transform command or validate command is defined. RuleScript's executable runtime and hosted API have not been released. The repository syntax checker validates source structure; it does not execute rules or certify anonymization.
+
+## Preview without execution
+
+The [preview contract](preview.md) explains the source file with the same CLI and API. It adds no DSL keywords or instructions. Preview requires only source, never evaluates values or conditions, and never produces transformed data. A source-ready plan cannot establish runtime success. Source hashes identify the file snapshot; execution remains a separate explicit operation.

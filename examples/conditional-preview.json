@@ -1,0 +1,52 @@
+{
+  "spec_version": "0.1-draft",
+  "mode": "preview",
+  "status": "ready",
+  "executed": false,
+  "data_inspected": false,
+  "rules_sha256": "60c347d475d5dc84ab4e8ab3527e7a97e611bae957fca4359b85ae75767bdede",
+  "output": null,
+  "plan": {
+    "rules": [
+      {
+        "order": 1,
+        "name": "Discount on larger orders",
+        "when": "price is greater than 100",
+        "message": "Discount must be a nonnegative number",
+        "steps": [
+          {
+            "order": 1,
+            "line": 3,
+            "operation": "check",
+            "source": "check discount is a number",
+            "reads": [
+              "discount"
+            ],
+            "writes": [],
+            "removes": [],
+            "explanation": "Check that discount is a number, only when the rule guard matches."
+          },
+          {
+            "order": 2,
+            "line": 4,
+            "operation": "check",
+            "source": "check discount is at least 0",
+            "reads": [
+              "discount"
+            ],
+            "writes": [],
+            "removes": [],
+            "explanation": "Check that discount is at least zero, only when the rule guard matches."
+          }
+        ]
+      }
+    ],
+    "warnings": [
+      {
+        "code": "DATA_NOT_INSPECTED",
+        "rule": null,
+        "message": "No data was supplied or inspected. Field availability, types, guard outcomes, check results and row counts remain unknown."
+      }
+    ]
+  }
+}

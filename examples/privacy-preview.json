@@ -1,0 +1,51 @@
+{
+  "spec_version": "0.1-draft",
+  "mode": "preview",
+  "status": "ready",
+  "executed": false,
+  "data_inspected": false,
+  "rules_sha256": "608ba7ac44a850ee5fbbbb626e1b343724c6c78b5582db06cc1b7a33c28ebef1",
+  "output": null,
+  "plan": {
+    "rules": [
+      {
+        "order": 1,
+        "name": "Remove identifying fields",
+        "when": null,
+        "message": null,
+        "steps": [
+          {
+            "order": 1,
+            "line": 2,
+            "operation": "anonymize",
+            "source": "anonymize email, phone, `Full Name`",
+            "reads": [
+              "Full Name",
+              "email",
+              "phone"
+            ],
+            "writes": [],
+            "removes": [
+              "Full Name",
+              "email",
+              "phone"
+            ],
+            "explanation": "Remove the named identifying fields from working records and the eventual output."
+          }
+        ]
+      }
+    ],
+    "warnings": [
+      {
+        "code": "DATA_NOT_INSPECTED",
+        "rule": null,
+        "message": "No data was supplied or inspected. Field availability, types, guard outcomes, check results and row counts remain unknown."
+      },
+      {
+        "code": "IDENTIFYING_FIELDS_REMOVED",
+        "rule": "Remove identifying fields",
+        "message": "This would remove only the named fields; it does not detect all PII or establish dataset anonymity."
+      }
+    ]
+  }
+}

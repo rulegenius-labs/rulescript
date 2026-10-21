@@ -25,10 +25,21 @@ rule "Valid price":
 - [Language and execution semantics](docs/specification.md)
 - [Concrete EBNF grammar](grammar/rulespec.ebnf)
 - [One CLI and one API execution interface](docs/execution.md)
+- [Preview each rule before execution](docs/preview.md)
 - [Masking and removal of identifying fields](docs/privacy.md)
 - [Canonical bilingual reference catalogue](reference/catalog.json)
 - [Complete supplier rules](examples/supplier_product_feed_v1.rules), [input CSV](examples/supplier-input.csv), [expected output CSV](examples/supplier-output.csv)
 - [Syntax checks and conformance scenarios](tests/README.md)
+
+## Preview the plan first
+
+Planned source-only interface:
+
+```sh
+rulegenius supplier_product_feed_v1.rules --preview
+```
+
+See the ordered rules, conditions, field changes and messages before supplying data. The same API endpoint accepts `mode=preview`. Preview does not inspect a dataset or prove that its checks will pass; execution is a separate request. [Read the complete contract](docs/preview.md).
 
 ## Execute the complete file
 
