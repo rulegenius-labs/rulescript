@@ -1,0 +1,49 @@
+(* RuleSpec 0.1 draft. NEWLINE / INDENT / DEDENT are supplied by the
+   line lexer: exactly two spaces for a body, no nested indentation. *)
+file = rule, { rule } ;
+rule = "rule", string, ":", NEWLINE, INDENT,
+       [ "when", condition, NEWLINE ],
+       instruction, NEWLINE, { instruction, NEWLINE },
+       [ "message", string, NEWLINE ], DEDENT ;
+instruction = "check", condition
+  | "rename", field, "to", field
+  | "split", field, "into", fields, "by", string
+  | "merge", fields, "into", field, "with", string
+  | "map", field, "using", mapping
+  | "convert", field, "to", type
+  | "set", field, "to", expression
+  | "replace", expression, "with", expression, "in", field
+  | "mask", field, "with", string
+  | "anonymize", fields
+  | "drop", fields
+  | "fill", field, "with", expression
+  | "reorder", "columns", fields
+  | "keep", "rows", "where", condition ;
+fields = field, { ",", field } ;
+condition = conjunction, { "or", conjunction } ;
+conjunction = predicate, { "and", predicate } ;
+predicate = "(", condition, ")" | field, "is", comparison ;
+comparison = "required" | [ "not" ], "missing" | [ "not" ], "null"
+  | "a", ( "number" | "string" | "boolean" | "date" )
+  | "an", "integer"
+  | "between", expression, "and", expression
+  | [ "not" ], "in", list
+  | "greater", "than", expression | "less", "than", expression
+  | "at", ( "least" | "most" ), expression
+  | [ "not" ], expression ;
+expression = term, { ( "+" | "-" ), term } ;
+term = unary, { ( "*" | "/" ), unary } ;
+unary = [ "+" | "-" ], atom ;
+atom = literal | field | "(", expression, ")" | call ;
+call = function, "(", expression, { ",", expression }, ")" ;
+function = "lowercase" | "uppercase" | "titlecase" | "trim" | "round" | "mean" | "median" ;
+list = "[", [ expression, { ",", expression } ], "]" ;
+mapping = "{", string, ":", expression, { ",", string, ":", expression }, "}" ;
+type = "number" | "integer" | "string" | "boolean" | "date" ;
+literal = string | number | "true" | "false" | "null" ;
+(* field = bare ASCII identifier not reserved by this grammar, or a
+   backtick-quoted exact name; double an embedded backtick.
+   string = a JSON double-quoted string without literal newlines.
+   number = JSON numeric magnitude; unary handles the optional sign.
+   # comments are ignored outside quoted values. See specification.md
+   for uniqueness, message/when placement and aggregate restrictions. *)

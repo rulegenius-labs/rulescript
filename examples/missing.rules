@@ -1,0 +1,3 @@
+rule "Supply a missing note":
+  when note is missing or note is null
+  set note to "Not provided"

@@ -1,0 +1,2 @@
+rule "Remove identifying fields":
+  anonymize email, phone, `Full Name`

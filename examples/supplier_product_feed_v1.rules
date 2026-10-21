@@ -1,12 +1,15 @@
-@contract supplier_product_feed_v1
-@version 1.0.0
-@description "Supplier product data contract"
-@format csv delimiter="," encoding="utf-8" max_rows=50000
-@on_fail reject
+rule "Prepare supplier data":
+  rename `Unit Price` to price
+  convert price to number
+  convert quantity to integer
+  set total to price * quantity
 
-@field product_id type=string required unique
-@field price type=number required min=0
-@field updated_at type=date required format="YYYY-MM-DD"
+rule "Valid price":
+  check price is required
+  check price is a number
+  check price is between 0 and 10000
+  message "Enter a numeric price from 0 to 10000"
 
-validate "product_id" is not_empty
-validate "price" is in_range 0..100000
+rule "Supported country":
+  check country is in ["US", "CA", "MX"]
+  message "Country must be US, CA or MX"

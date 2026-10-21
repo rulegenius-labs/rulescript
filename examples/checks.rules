@@ -1,0 +1,5 @@
+rule "Valid price":
+  check price is required
+  check price is a number
+  check price is between 0 and 10000
+  message "Enter a numeric price from 0 to 10000"

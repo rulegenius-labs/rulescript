@@ -1,0 +1,5 @@
+rule "Discount on larger orders":
+  when price is greater than 100
+  check discount is a number
+  check discount is at least 0
+  message "Discount must be a nonnegative number"

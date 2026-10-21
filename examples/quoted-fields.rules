@@ -1,0 +1,3 @@
+rule "Read exact column headers":
+  set total to `Unit Price` * quantity
+  set `Customer Note` to "Reviewed"

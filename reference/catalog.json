@@ -1,0 +1,355 @@
+{
+  "version": "0.1-draft",
+  "standard": "RuleSpec",
+  "implementation": "RuleScript by RuleGenius",
+  "fileExtension": ".rules",
+  "examples": {
+    "supplier": "rule \"Prepare supplier data\":\n  rename `Unit Price` to price\n  convert price to number\n  convert quantity to integer\n  set total to price * quantity\n\nrule \"Valid price\":\n  check price is required\n  check price is a number\n  check price is between 0 and 10000\n  message \"Enter a numeric price from 0 to 10000\"\n\nrule \"Supported country\":\n  check country is in [\"US\", \"CA\", \"MX\"]\n  message \"Country must be US, CA or MX\"",
+    "quoted-fields": "rule \"Read exact column headers\":\n  set total to `Unit Price` * quantity\n  set `Customer Note` to \"Reviewed\"",
+    "checks": "rule \"Valid price\":\n  check price is required\n  check price is a number\n  check price is between 0 and 10000\n  message \"Enter a numeric price from 0 to 10000\"",
+    "conditional": "rule \"Discount on larger orders\":\n  when price is greater than 100\n  check discount is a number\n  check discount is at least 0\n  message \"Discount must be a nonnegative number\"",
+    "privacy": "rule \"Remove identifying fields\":\n  anonymize email, phone, `Full Name`",
+    "missing": "rule \"Supply a missing note\":\n  when note is missing or note is null\n  set note to \"Not provided\""
+  },
+  "entries": [
+    {
+      "id": "rename-field",
+      "group": "transformations",
+      "en": {
+        "title": "Rename a field",
+        "description": "Change a field name without changing its value. Backticks reference an exact CSV header containing spaces.",
+        "parameters": "source field, new field"
+      },
+      "es": {
+        "title": "Renombrar un campo",
+        "description": "Cambia el nombre sin alterar el valor. Las comillas invertidas indican el nombre exacto de una columna con espacios.",
+        "parameters": "campo de origen, campo nuevo"
+      },
+      "code": "rule \"Rename a column\":\n  rename `Unit Price` to price"
+    },
+    {
+      "id": "split-field",
+      "group": "transformations",
+      "en": {
+        "title": "Split a field",
+        "description": "Split a string using a literal separator. The number of parts must match the destination fields.",
+        "parameters": "source field, destination fields, separator"
+      },
+      "es": {
+        "title": "Dividir un campo",
+        "description": "Divide un texto por un separador literal. El número de partes debe coincidir con los campos de destino.",
+        "parameters": "campo de origen, campos de destino, separador"
+      },
+      "code": "rule \"Split a name\":\n  split full_name into first_name, last_name by \" \""
+    },
+    {
+      "id": "merge-fields",
+      "group": "transformations",
+      "en": {
+        "title": "Merge fields",
+        "description": "Join string fields in the written order using an explicit separator.",
+        "parameters": "source fields, destination field, separator"
+      },
+      "es": {
+        "title": "Combinar campos",
+        "description": "Une campos de texto en el orden escrito con un separador explícito.",
+        "parameters": "campos de origen, campo de destino, separador"
+      },
+      "code": "rule \"Build a full name\":\n  merge first_name, last_name into full_name with \" \""
+    },
+    {
+      "id": "map-values",
+      "group": "transformations",
+      "en": {
+        "title": "Map values",
+        "description": "Replace a value using a map with quoted text keys. An unmapped value fails the record instead of silently passing through.",
+        "parameters": "field, mapping"
+      },
+      "es": {
+        "title": "Mapear valores",
+        "description": "Sustituye un valor mediante un mapa con claves de texto entre comillas. Un valor sin correspondencia produce un error en el registro.",
+        "parameters": "campo, mapa"
+      },
+      "code": "rule \"Expand country codes\":\n  map country_code using {\"US\": \"United States\", \"CA\": \"Canada\", \"MX\": \"Mexico\"}"
+    },
+    {
+      "id": "convert-type",
+      "group": "transformations",
+      "en": {
+        "title": "Convert a type",
+        "description": "Convert a field explicitly. CSV cells start as strings; checks never convert them implicitly. Invalid conversions fail the record.",
+        "parameters": "field, number / integer / string / boolean / date"
+      },
+      "es": {
+        "title": "Convertir un tipo",
+        "description": "Convierte un campo explícitamente. Las celdas CSV empiezan como textos; las comprobaciones no las convierten de forma implícita. Una conversión inválida produce un error.",
+        "parameters": "campo, number / integer / string / boolean / date"
+      },
+      "code": "rule \"Read a quantity\":\n  convert quantity to integer"
+    },
+    {
+      "id": "set-field",
+      "group": "transformations",
+      "en": {
+        "title": "Set or calculate a field",
+        "description": "Assign a literal, copy a field or evaluate an expression. Expressions are not quoted.",
+        "parameters": "destination field, expression"
+      },
+      "es": {
+        "title": "Asignar o calcular un campo",
+        "description": "Asigna un literal, copia un campo o evalúa una expresión. Las expresiones no llevan comillas.",
+        "parameters": "campo de destino, expresión"
+      },
+      "code": "rule \"Calculate a total\":\n  set total to price * quantity"
+    },
+    {
+      "id": "normalize-case",
+      "group": "transformations",
+      "en": {
+        "title": "Normalize text",
+        "description": "Use set with a text function. The same assignment form works for lowercase, uppercase, titlecase and trim.",
+        "parameters": "field, text function"
+      },
+      "es": {
+        "title": "Normalizar texto",
+        "description": "Usa set con una función de texto. La misma asignación sirve para lowercase, uppercase, titlecase y trim.",
+        "parameters": "campo, función de texto"
+      },
+      "code": "rule \"Normalize a name\":\n  set name to lowercase(name)"
+    },
+    {
+      "id": "replace-values",
+      "group": "transformations",
+      "en": {
+        "title": "Replace a value",
+        "description": "Replace an exact typed value in a field. Replacing null does not replace an absent field or an empty string.",
+        "parameters": "old value, replacement, field"
+      },
+      "es": {
+        "title": "Sustituir un valor",
+        "description": "Sustituye un valor exacto y del mismo tipo. Reemplazar null no reemplaza un campo ausente ni un texto vacío.",
+        "parameters": "valor anterior, sustitución, campo"
+      },
+      "code": "rule \"Replace a null status\":\n  replace null with \"N/A\" in status"
+    },
+    {
+      "id": "round-numbers",
+      "group": "transformations",
+      "en": {
+        "title": "Round a number",
+        "description": "Use round inside an assignment. Decimal ties round away from zero, so results do not depend on a runtime default.",
+        "parameters": "number expression, decimal places (0–15)"
+      },
+      "es": {
+        "title": "Redondear un número",
+        "description": "Usa round dentro de una asignación. Los empates decimales se redondean alejándose de cero para evitar diferencias entre motores.",
+        "parameters": "expresión numérica, decimales (0–15)"
+      },
+      "code": "rule \"Round a price\":\n  set price to round(price, 2)"
+    },
+    {
+      "id": "mask-data",
+      "group": "transformations",
+      "en": {
+        "title": "Mask a value",
+        "description": "Replace a field value with the supplied constant. Masking changes its display but does not establish dataset anonymity.",
+        "parameters": "field, constant mask"
+      },
+      "es": {
+        "title": "Enmascarar un valor",
+        "description": "Sustituye el valor por la constante indicada. El enmascaramiento cambia su presentación, pero no demuestra que el conjunto sea anónimo.",
+        "parameters": "campo, máscara constante"
+      },
+      "code": "rule \"Mask email\":\n  mask email with \"****@domain.com\""
+    },
+    {
+      "id": "anonymize-data",
+      "group": "transformations",
+      "en": {
+        "title": "Remove identifying fields",
+        "description": "Anonymize explicitly named fields by removing them from the working data and output. This does not detect all PII or assess re-identification risk.",
+        "parameters": "explicit fields to remove"
+      },
+      "es": {
+        "title": "Eliminar campos identificativos",
+        "description": "Anonymize elimina los campos indicados de los datos de trabajo y de la salida. No detecta toda la información personal ni evalúa el riesgo de reidentificación.",
+        "parameters": "campos explícitos que se eliminarán"
+      },
+      "code": "rule \"Remove direct identifiers\":\n  anonymize email, phone, `Full Name`"
+    },
+    {
+      "id": "drop-fields",
+      "group": "transformations",
+      "en": {
+        "title": "Drop fields",
+        "description": "Remove fields that are no longer needed. Use anonymize to express the intent to remove identifying fields.",
+        "parameters": "fields"
+      },
+      "es": {
+        "title": "Eliminar campos",
+        "description": "Elimina campos que ya no hacen falta. Usa anonymize para expresar la intención de retirar campos identificativos.",
+        "parameters": "campos"
+      },
+      "code": "rule \"Drop a temporary field\":\n  drop temp_field"
+    },
+    {
+      "id": "fill-missing",
+      "group": "transformations",
+      "en": {
+        "title": "Fill missing values",
+        "description": "Fill absent or null values with a literal or aggregate. Empty strings stay distinct. Mean and median use a snapshot of retained rows at the start of the rule.",
+        "parameters": "field, value / mean(field) / median(field)"
+      },
+      "es": {
+        "title": "Rellenar valores ausentes",
+        "description": "Rellena valores ausentes o null con un literal o agregado. Los textos vacíos siguen siendo distintos. Mean y median usan una instantánea de las filas conservadas al empezar la regla.",
+        "parameters": "campo, valor / mean(campo) / median(campo)"
+      },
+      "code": "rule \"Fill an absent age\":\n  fill age with mean(age)"
+    },
+    {
+      "id": "reorder-columns",
+      "group": "transformations",
+      "en": {
+        "title": "Reorder columns",
+        "description": "List every retained field exactly once to set CSV output order. For JSON this only controls serialization order.",
+        "parameters": "all retained fields, in order"
+      },
+      "es": {
+        "title": "Reordenar columnas",
+        "description": "Enumera una vez cada campo conservado para definir el orden de salida CSV. En JSON solo afecta al orden de serialización.",
+        "parameters": "todos los campos conservados, en orden"
+      },
+      "code": "rule \"Order output columns\":\n  reorder columns id, name, email"
+    },
+    {
+      "id": "keep-rows",
+      "group": "transformations",
+      "en": {
+        "title": "Keep matching rows",
+        "description": "Keep rows for which the condition is true. Other rows are counted as filtered, not as failed checks. A prior failure cannot be erased by a later filter.",
+        "parameters": "condition"
+      },
+      "es": {
+        "title": "Conservar filas que cumplen",
+        "description": "Conserva las filas cuya condición es verdadera. Las demás se cuentan como filtradas, no como validaciones fallidas. Un filtro posterior no borra un fallo previo.",
+        "parameters": "condición"
+      },
+      "code": "rule \"Keep adult records\":\n  keep rows where age is at least 18"
+    },
+    {
+      "id": "required",
+      "group": "validations",
+      "en": {
+        "title": "Required values",
+        "description": "Reject absent fields, null, empty or whitespace-only strings, and empty collections. Zero and false are present values.",
+        "parameters": "field"
+      },
+      "es": {
+        "title": "Valores obligatorios",
+        "description": "Rechaza campos ausentes, null, textos vacíos o con solo espacios y colecciones vacías. Cero y false son valores presentes.",
+        "parameters": "campo"
+      },
+      "code": "rule \"A name is required\":\n  check name is required\n  message \"Name is required\""
+    },
+    {
+      "id": "types",
+      "group": "validations",
+      "en": {
+        "title": "Data types",
+        "description": "Check a type without converting it. Use a number, an integer, a string, a boolean or a date. Dates are valid ISO YYYY-MM-DD strings.",
+        "parameters": "field, expected type"
+      },
+      "es": {
+        "title": "Tipos de datos",
+        "description": "Comprueba el tipo sin convertirlo. Usa a number, an integer, a string, a boolean o a date. Las fechas son textos ISO YYYY-MM-DD válidos.",
+        "parameters": "campo, tipo esperado"
+      },
+      "code": "rule \"Age is numeric\":\n  check age is a number\n  message \"Age must be numeric\""
+    },
+    {
+      "id": "ranges",
+      "group": "validations",
+      "en": {
+        "title": "Ranges",
+        "description": "Check an inclusive numeric range: both the lower and upper bounds are allowed.",
+        "parameters": "field, inclusive minimum and maximum"
+      },
+      "es": {
+        "title": "Rangos",
+        "description": "Comprueba un rango numérico inclusivo: se admiten ambos límites.",
+        "parameters": "campo, mínimo y máximo inclusivos"
+      },
+      "code": "rule \"A price is in range\":\n  check price is between 0 and 10000\n  message \"Price must be between 0 and 10000\""
+    },
+    {
+      "id": "membership",
+      "group": "validations",
+      "en": {
+        "title": "Membership",
+        "description": "Check exact, case-sensitive typed membership. Use is not in to exclude a list.",
+        "parameters": "field, list of values"
+      },
+      "es": {
+        "title": "Pertenencia a una lista",
+        "description": "Comprueba pertenencia exacta, sensible a mayúsculas y al tipo. Usa is not in para excluir una lista.",
+        "parameters": "campo, lista de valores"
+      },
+      "code": "rule \"Country is supported\":\n  check country is in [\"US\", \"CA\", \"MX\"]\n  message \"Country must be US, CA or MX\""
+    },
+    {
+      "id": "minimums",
+      "group": "validations",
+      "en": {
+        "title": "Minimum values",
+        "description": "Use is greater than for an exclusive threshold and is at least for an inclusive threshold.",
+        "parameters": "numeric field, threshold"
+      },
+      "es": {
+        "title": "Valores mínimos",
+        "description": "Usa is greater than para un límite exclusivo e is at least para uno inclusivo.",
+        "parameters": "campo numérico, umbral"
+      },
+      "code": "rule \"Discount is positive\":\n  check discount is greater than 0\n  check price is at least 0"
+    },
+    {
+      "id": "maximums",
+      "group": "validations",
+      "en": {
+        "title": "Maximum values",
+        "description": "Use is less than for an exclusive threshold and is at most for an inclusive threshold.",
+        "parameters": "numeric field, threshold"
+      },
+      "es": {
+        "title": "Valores máximos",
+        "description": "Usa is less than para un límite exclusivo e is at most para uno inclusivo.",
+        "parameters": "campo numérico, umbral"
+      },
+      "code": "rule \"Discount is within its limit\":\n  check age is less than 18\n  check discount is at most 50"
+    },
+    {
+      "id": "equality",
+      "group": "validations",
+      "en": {
+        "title": "Equality and exclusion",
+        "description": "Use is or is not for equality, and is not in to exclude values. Fields, strings and numbers remain distinct.",
+        "parameters": "field, value or excluded list"
+      },
+      "es": {
+        "title": "Igualdad y exclusión",
+        "description": "Usa is o is not para igualdad, e is not in para excluir valores. Campos, textos y números se mantienen distintos.",
+        "parameters": "campo, valor o lista excluida"
+      },
+      "code": "rule \"Status is active\":\n  check status is \"Active\"\n  check status is not in [\"Inactive\", \"Suspended\"]"
+    }
+  ],
+  "cli": "rulegenius supplier.rules input.csv --output output.csv --report report.json",
+  "api": {
+    "method": "POST",
+    "path": "/v1/executions",
+    "parts": [
+      "rules",
+      "data"
+    ]
+  }
+}

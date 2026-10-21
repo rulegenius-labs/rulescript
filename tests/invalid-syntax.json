@@ -1,0 +1,14 @@
+{
+ "quoted field is text": "rule \"Bad field\":\n  rename \"Unit Price\" to price",
+ "semicolon": "rule \"No semicolon\":\n  set total to price * quantity;",
+ "old instruction": "rule \"No calculate\":\n  calculate total as price * quantity",
+ "late condition": "rule \"Guard first\":\n  set total to 0\n  when price is greater than 100",
+ "message without check": "rule \"No check\":\n  set total to 0\n  message \"Invalid\"",
+ "message not last": "rule \"Message last\":\n  check price is required\n  message \"Missing\"\n  set total to 0",
+ "unquoted reserved field": "rule \"Reserved name\":\n  set check to 0",
+ "wrong indentation": "rule \"Two spaces\":\n    check price is required",
+ "wrong function arity": "rule \"One argument\":\n  set name to lowercase(name, 2)",
+ "unknown function": "rule \"No eval\":\n  set total to eval(\"price * quantity\")",
+ "aggregate outside fill": "rule \"No aggregate assignment\":\n  set age to mean(age)",
+ "duplicate rule names": "rule \"Same\":\n  set total to 0\nrule \"Same\":\n  set total to 1"
+}
