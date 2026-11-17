@@ -1,4 +1,4 @@
-(* RuleSpec 0.1 draft. NEWLINE / INDENT / DEDENT are supplied by the
+(* RuleScript 0.1 draft. NEWLINE / INDENT / DEDENT are supplied by the
    line lexer: exactly two spaces for a body, no nested indentation. *)
 file = rule, { rule } ;
 rule = "rule", string, ":", NEWLINE, INDENT,

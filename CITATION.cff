@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "RuleSpec: The Open Standard for Data Validation and Data Contracts"
+title: "RuleScript: An Open Language for Data Validation and Transformation"
 message: "If you use this specification, please cite it as below."
 type: software
 authors:
@@ -8,10 +8,9 @@ authors:
     affiliation: "RuleGenius"
     orcid: "https://orcid.org/0009-0004-4800-5270"
 abstract: >
-  RuleSpec is an open, declarative specification language for defining data validation and governance rules.
-  It bridges the gap between static schemas (like JSON Schema or Avro) and executable logic,
-  enabling consistent, auditable, and portable data contracts across tools, platforms, and organizations.
-repository-code: "https://github.com/rulegenius-labs/rulespec"
+  RuleScript is an open, declarative language for defining data validation and transformation rules.
+  Its specification defines the grammar and execution semantics of portable rules files.
+repository-code: "https://github.com/rulegenius-labs/rulescript"
 license: "Apache-2.0"
 keywords:
   - data-validation
@@ -23,12 +22,12 @@ keywords:
   - rules-language
 version: "0.1.0"
 date-released: "2025-10-25"
-url: "https://www.rulespec.org"
+url: "https://github.com/rulegenius-labs/rulescript"
 preferred-citation:
   type: software
-  title: "RuleSpec: A Declarative Open Standard for Portable Data Contracts"
+  title: "RuleScript: An Open Language for Data Validation and Transformation"
   authors:
     - family-names: "Muñoz"
       given-names: "Pavel S."
   year: 2025
-  url: "https://github.com/rulegenius-labs/rulespec"
+  url: "https://github.com/rulegenius-labs/rulescript"

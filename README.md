@@ -1,8 +1,8 @@
-# RuleSpec
+# RuleScript
 
-**RuleSpec is the open DSL standard. RuleScript is RuleGenius's implementation of that standard.** They describe the same language, use the same `.rules` files, and share the same examples and execution semantics.
+**RuleScript is an open language for validating and transforming data.** Its specification defines the grammar and execution semantics for `.rules` files. RuleGenius is developing a RuleScript engine for its CLI and API.
 
-Status: **0.1 draft**. This repository defines the language, its interfaces and syntax checks. The RuleGenius CLI/API execution engine is planned, not released. RuleSpec is licensed under [Apache 2.0](LICENSE).
+Status: **0.1 draft**. This repository contains the RuleScript specification, interface designs, examples and syntax checks. The RuleGenius engine, CLI and public API are planned. The specification is licensed under [Apache 2.0](LICENSE).
 
 ## A readable rule
 
@@ -55,7 +55,7 @@ The current examples use flat CSV records or a JSON array of flat records. Datas
 
 ## Contribute
 
-Discuss language changes and examples through [RuleGenius Labs](https://github.com/rulegenius-labs/rulespec/issues). Implementations must follow the specified grammar and semantics. Future compliance claims require execution against the conformance cases; syntax checks alone do not establish runtime compliance.
+Discuss language changes and examples in the [RuleScript issue tracker](https://github.com/rulegenius-labs/rulescript/issues). Implementations must follow the specified grammar and semantics. The [pilot runtime conformance suite](tests/README.md#runtime-conformance) checks a subset of that behavior against an implementation.
 
 Run documentation and syntax checks with Python 3:
 

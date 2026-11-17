@@ -1,6 +1,6 @@
-# RuleSpec 0.1 — draft language specification
+# RuleScript 0.1 — draft language specification
 
-RuleSpec defines the standard DSL. RuleScript is the implementation developed by RuleGenius. The website, CLI and API use this same grammar; implementation-specific alternatives are not separate language dialects.
+This document defines the grammar and execution semantics of RuleScript, an open language for validating and transforming data. The RuleGenius website documents this grammar, and the planned CLI and API follow the same specification.
 
 ## Files and rule blocks
 
@@ -69,7 +69,7 @@ Reports use rule names, record indexes (starting at 1), statuses and stable diag
 
 ## Interfaces and implementation status
 
-The [CLI/API contract](execution.md) invokes this same execution model for all statements. No separate compile format, transform command or validate command is defined. RuleScript's executable runtime and hosted API have not been released. The repository syntax checker validates source structure; it does not execute rules or certify anonymization.
+The [CLI/API contract](execution.md) invokes this same execution model for all statements. No separate compile format, transform command or validate command is defined. The RuleGenius engine, CLI and public API are planned. The repository syntax checker validates source structure; it does not execute rules or certify anonymization.
 
 ## Preview without execution
 

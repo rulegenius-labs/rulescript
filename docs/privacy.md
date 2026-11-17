@@ -1,6 +1,6 @@
 # Mask and anonymize
 
-RuleSpec 0.1 distinguishes a presentation replacement from explicit removal of identifying fields.
+RuleScript 0.1 distinguishes a presentation replacement from explicit removal of identifying fields.
 
 ```text
 rule "Mask email":

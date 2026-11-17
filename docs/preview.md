@@ -1,6 +1,6 @@
 # Preview before execution
 
-RuleSpec defines a source-only preview plan for the same RuleScript engine, CLI and API. This is a planned interface contract; no runtime preview command or public API is released yet. The DSL grammar is unchanged.
+The RuleScript specification defines a source-only preview plan for the RuleGenius CLI and API. Preview is designed to use the same engine and grammar as execution. The preview command and public API are planned.
 
 ## CLI
 

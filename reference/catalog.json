@@ -1,7 +1,7 @@
 {
   "version": "0.1-draft",
-  "standard": "RuleSpec",
-  "implementation": "RuleScript by RuleGenius",
+  "standard": "RuleScript",
+  "implementation": "RuleGenius",
   "fileExtension": ".rules",
   "examples": {
     "supplier": "rule \"Prepare supplier data\":\n  rename `Unit Price` to price\n  convert price to number\n  convert quantity to integer\n  set total to price * quantity\n\nrule \"Valid price\":\n  check price is required\n  check price is a number\n  check price is between 0 and 10000\n  message \"Enter a numeric price from 0 to 10000\"\n\nrule \"Supported country\":\n  check country is in [\"US\", \"CA\", \"MX\"]\n  message \"Country must be US, CA or MX\"",

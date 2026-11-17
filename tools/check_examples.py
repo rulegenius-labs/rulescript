@@ -163,6 +163,7 @@ if __name__=='__main__':
     catalog=json.loads((ROOT/'reference/catalog.json').read_text())
     sources=[(x['id'],x['code']) for x in catalog['entries']]+list(catalog['examples'].items())
     sources += [(p.name,p.read_text()) for p in (ROOT/'examples').glob('*.rules')]
+    sources += [(p.name,p.read_text()) for p in (ROOT/'tests/fixtures').glob('*.rules')]
     for name,source in sources:
         try:check_source(source)
         except ValueError as error:raise SystemExit(f'{name}: {error}')

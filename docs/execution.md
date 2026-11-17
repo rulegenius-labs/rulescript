@@ -1,6 +1,6 @@
 # One execution model, two transports
 
-RuleSpec defines the DSL and execution semantics. RuleScript implements them for RuleGenius. The CLI/API below are planned interfaces, not released software or live endpoints.
+The RuleScript specification defines the language and execution semantics. RuleGenius plans to use one RuleScript engine for the CLI and API interfaces described here.
 
 ## CLI
 

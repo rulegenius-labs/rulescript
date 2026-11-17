@@ -1,4 +1,4 @@
-name: Check RuleSpec draft examples
+name: Check RuleScript draft examples
 on:
   push:
     branches: [main]

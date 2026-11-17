@@ -1,0 +1,42 @@
+[
+  {
+    "id": "supplier-csv",
+    "rules": "examples/supplier_product_feed_v1.rules",
+    "data": {"format": "csv", "file": "examples/supplier-input.csv"},
+    "numeric_columns": ["price", "quantity", "total"],
+    "expected": {
+      "status": "passed",
+      "summary": {"input_records": 2, "output_records": 2, "filtered_records": 0, "failed_records": 0},
+      "failures": [],
+      "output": {"format": "csv", "file": "examples/supplier-output.csv"}
+    }
+  },
+  {
+    "id": "failed-record-stays-failed-when-filtered",
+    "rules": "tests/fixtures/check-then-filter.rules",
+    "data": {
+      "format": "json",
+      "content": "[{\"price\":20,\"publish\":true},{\"price\":-733.318,\"publish\":false},{\"price\":10,\"publish\":false}]"
+    },
+    "expected": {
+      "status": "failed",
+      "summary": {"input_records": 3, "output_records": 0, "filtered_records": 1, "failed_records": 1},
+      "failures": [{"rule": "Valid price", "record": 2, "code": "CHECK_FAILED", "message": "Enter a numeric price from 0 to 10000"}],
+      "output": null
+    }
+  },
+  {
+    "id": "json-missing-and-null",
+    "rules": "examples/missing.rules",
+    "data": {"format": "json", "content": "[{},{\"note\":null},{\"note\":\"\"},{\"note\":false},{\"note\":0}]"},
+    "expected": {
+      "status": "passed",
+      "summary": {"input_records": 5, "output_records": 5, "filtered_records": 0, "failed_records": 0},
+      "failures": [],
+      "output": {
+        "format": "json",
+        "content": "[{\"note\":\"Not provided\"},{\"note\":\"Not provided\"},{\"note\":\"\"},{\"note\":false},{\"note\":0}]"
+      }
+    }
+  }
+]
