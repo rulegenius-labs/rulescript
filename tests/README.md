@@ -43,4 +43,4 @@ The starter suite covers ordered CSV transforms, failure without dataset output 
 
 ## Preview contract fixtures
 
-The same command checks the authored supplier, conditional and privacy preview JSON fixtures against their `.rules` sources: order, names, guards/messages, source lines, source hash, static field effects and explicit non-execution flags. It rejects 11 altered fixtures that claim execution/data inspection, include data output or counts, change a guard into a result, omit instructions/limitations, reorder rules or mismatch source hashes. These are source/contract consistency checks, not tests of a released preview planner or runtime. See [the preview contract](../docs/preview.md).
+Run `python3 tools/check_preview_contract.py` to check the supplier, conditional and privacy preview JSON fixtures against their `.rules` sources. This command checks rule order, names, guards, messages, source lines, source hashes, static field effects and flags that indicate whether execution occurred. It also rejects 11 fixtures with violations of the [preview contract](../docs/preview.md). `check_examples.py` runs the same preview check after checking the examples.

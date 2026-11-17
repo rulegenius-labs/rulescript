@@ -23,7 +23,7 @@ rule "Valid price":
 ## Read the draft
 
 - [Language and execution semantics](docs/specification.md)
-- [Concrete EBNF grammar](grammar/rulespec.ebnf)
+- [Concrete EBNF grammar](grammar/rulescript.ebnf)
 - [One CLI and one API execution interface](docs/execution.md)
 - [Preview each rule before execution](docs/preview.md)
 - [Masking and removal of identifying fields](docs/privacy.md)
@@ -57,8 +57,10 @@ The current examples use flat CSV records or a JSON array of flat records. Datas
 
 Discuss language changes and examples in the [RuleScript issue tracker](https://github.com/rulegenius-labs/rulescript/issues). Implementations must follow the specified grammar and semantics. The [pilot runtime conformance suite](tests/README.md#runtime-conformance) checks a subset of that behavior against an implementation.
 
-Run documentation and syntax checks with Python 3:
+Run the syntax and preview fixture checks with Python 3.8 or newer.
 
 ```sh
 python3 tools/check_examples.py
 ```
+
+The [tool guide](tools/README.md) explains how to run the preview check on its own and connect an engine to the runtime suite.
